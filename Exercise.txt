@@ -1,0 +1,6 @@
+Assignments
+
+DDL Assignments
+DML Assignments
+DQL Assignments
+JOIN Assignments
