@@ -1,6 +1,6 @@
 Assignments
 
-DDL Assignments
+1. DDL Assignments
 
 CREATE DATABASE NissanTest
 
