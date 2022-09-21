@@ -1,6 +1,88 @@
 Assignments
 
 DDL Assignments
+
+CREATE DATABASE NissanTest
+
+USE NissanTest
+
+-- Qn 7
+-- Qn 8
+
+CREATE TABLE Customer(
+    Custno NUMERIC(3) PRIMARY KEY,
+    Custname VARCHAR(20),
+    Address VARCHAR(40)
+)
+-- Qn 9
+
+CREATE TABLE Order(
+    Orderno NUMERIC(3) PRIMARY KEY,
+    Custno NUMERIC 
+        CONSTRAINT fk_custno 
+		FOREIGN KEY (Custno) 
+		REFERENCES Customer(Custno),
+    orderdate DATE
+)
+-- Qn 10
+
+CREATE TABLE OrderItem(
+    ItemID NUMERIC(3) PRIMARY KEY,
+    OrderNo NUMERIC 
+        CONSTRAINT fk_orderno 
+		FOREIGN KEY (Orderno) 
+		REFERENCES Order(Orderno),
+    ItemName VARCHAR(20),
+    Quantity NUMERIC(2),
+)
+
+-- Qn 11
+
+ ALTER TABLE Customer MODIFY Address VARCHAR(100) ;
+
+-- Qn 12
+-- Qn 13
+
+CREATE TABLE Course(
+    CourseId VARCHAR(5),
+    StreamID VARCHAR(20),
+    Title VARCHAR(40),
+    Description VARCHAR(200),   
+    Fees NUMERIC(4),
+    CONSTRAINT CompositeKey PRIMARY KEY (CourseId, StreamID)
+)
+-- Qn 14
+CREATE TABLE Batch(
+    BatchId VARCHAR(30),
+    CourseId VARCHAR(5),
+    BatchName CHAR(1)
+)
+
+-- Qn 15
+CREATE TABLE Student(
+    StudId VARCHAR(20) PRIMARY KEY,
+    Lastname VARCHAR(25),
+    MiddleName VARCHAR(30),
+    Firstname VARCHAR(20),
+    Dob DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Address VARCHAR(50),
+    City VARCHAR(20),
+    State VARCHAR(2),
+    Zipcode VARCHAR(9),
+    Telephone VARCHAR(10),
+    Fax VARCHAR(10),
+    Email VARCHAR(30),
+    Grade CHAR(1),
+    CONSTRAINT GradeConstraint CHECK
+    (Grade IN 'A','A+','A-', 'B', 'B+', 'B-', 
+'C','C+', 'C-','D','D+','D-','F','F+','F-')
+)
+-- Qn 16
+ALTER TABLE Student DROP MiddleName
+
+-- Qn 17
+ALTER TABLE Student
+
 DML Assignments
 DQL Assignments
 JOIN Assignments
