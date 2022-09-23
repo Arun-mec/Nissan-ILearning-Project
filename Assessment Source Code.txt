@@ -1,0 +1,94 @@
+USE test
+
+-- Employee Table
+CREATE TABLE Employee(
+	EmpId INT PRIMARY KEY,
+	EmpName VARCHAR(20),
+	Phone NUMERIC(10),
+	Email VARCHAR(30)
+)
+
+-- Manufacturer Table
+CREATE TABLE Manufacturer(
+	MfName VARCHAR(20) PRIMARY KEY,
+	City VARCHAR(20),
+	[State] VARCHAR(20)
+)
+
+-- Computer Table
+CREATE TABLE Computer(
+	SerialNum INT PRIMARY KEY,
+	MfName VARCHAR(20)
+		CONSTRAINT fk_mfname
+		FOREIGN KEY (MfName)
+		REFERENCES Manufacturer(MfName),
+	Model VARCHAR(20),
+	[Weight] INT,
+	EmpId INT
+		CONSTRAINT fk_employeeid
+		FOREIGN KEY (EmpId)
+		REFERENCES Employee(EmpId),
+)
+
+--Inserting Values to the table
+INSERT INTO Manufacturer VALUES('Lenovo','Charity','South Dakota'),
+						('IBM','Seattle','Washington'),
+						('Acer','Piere','South Dakota'),
+						('Apple','Buffalo','New York'),
+						('Dell','Dallas','Texas')
+SELECT * FROM Manufacturer
+
+INSERT INTO Employee VALUES(1,'Tom',8483894839,'tom88@gmail.com'),
+						(2,'Scott',5463467233,'sco88@gmail.com'),
+						(3,'Jhones',7283738373,'jones@gmail.com'),
+						(4,'Hocks',2638390193,'ho23cks@gmail.com'),
+						(5,'Todd',2938391920,'todd22@gmail.com')
+
+SELECT * FROM Employee
+
+INSERT INTO Computer VALUES(1,'Lenovo','Ideapad',300,2),
+						(2,'Apple','Macbook Pro',250,2),
+						(3,'Dell','Inspiron',400,4),
+						(4,'Apple','Macbook',280,5),
+						(5,'IBM','Thinkpad',400,3)
+SELECT * FROM Computer
+
+-- Q1
+SELECT MfName FROM Manufacturer
+WHERE State='South Dakota'
+
+-- Q2
+SELECT MfName,AVG(Weight) FROM Computer
+GROUP BY MfName
+
+-- Q3
+-- ALTER TABLE Employee ALTER COLUMN Phone VARCHAR(10)
+SELECT EmpName,Phone FROM Employee
+WHERE Phone like '2%'
+
+-- Q4
+SELECT SerialNum FROM Computer
+WHERE [Weight] < (SELECT AVG([Weight]) FROM Computer)
+
+--Q5
+SELECT MfName FROM Manufacturer
+WHERE MfName NOT IN (SELECT MfName FROM Computer)
+
+-- Q6
+SELECT e.EmpName, c.SerialNum, m.City FROM Computer c
+INNER JOIN Employee e
+ON c.EmpId = e.EmpId
+INNER JOIN Manufacturer m
+ON c.MfName = m.MfName
+
+--Q7
+
+CREATE PROCEDURE spGetInformation
+@EmpId INT
+AS
+	BEGIN
+	SELECT SerialNum,MfName,Model,[Weight],EmpId FROM Computer
+	WHERE EmpId = @EmpId
+END
+
+spGetInformation 2
